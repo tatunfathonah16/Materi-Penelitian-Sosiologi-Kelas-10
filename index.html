@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SociologyLab - Penelitian Sosiologi Kelas 10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --secondary: #ec4899;
+            --accent: #14b8a6;
+            --dark: #0f172a;
+            --dark-2: #1e293b;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: var(--gradient-1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .loader-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+        .loader-bar-fill {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: loadBar 1.8s ease-in-out forwards;
+        }
+        @keyframes loadBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            backdrop-filter: blur(10px);
+        }
+        .header-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .progress-bar-header {
+            width: 160px;
+            height: 8px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar-header-fill {
+            height: 100%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* ===== NAVIGATION TABS ===== */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 72px;
+            z-index: 99;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-tabs-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 0.25rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .nav-tabs-inner::-webkit-scrollbar { display: none; }
+        .nav-tab {
+            padding: 1rem 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray);
+            background: none;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+        .nav-tab:hover { color: var(--primary); }
+        .nav-tab.active {
+            color: var(--primary);
+        }
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0.5rem;
+            right: 0.5rem;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HERO / SECTION HEADER ===== */
+        .section-hero {
+            background: var(--gradient-1);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+        .section-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+        }
+        .section-hero h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .section-hero p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== CONTENT CARDS ===== */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        .card-title-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .card p {
+            color: #475569;
+            font-size: 0.92rem;
+            margin-bottom: 0.75rem;
+        }
+        .card ul, .card ol {
+            padding-left: 1.5rem;
+            color: #475569;
+            font-size: 0.92rem;
+        }
+        .card li {
+            margin-bottom: 0.4rem;
+        }
+        .card li strong { color: var(--dark); }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #4338ca;
+        }
+        .highlight-box strong { color: var(--primary-dark); }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .info-card {
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-light);
+        }
+        .info-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .info-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid #e2e8f0;
+            margin-top: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        thead {
+            background: var(--gradient-1);
+            color: white;
+        }
+        th {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #f8fafc; }
+
+        /* ===== ACCORDION ===== */
+        .accordion {
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+            background: var(--white);
+        }
+        .accordion-header {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: #f8fafc; }
+        .accordion-header .arrow {
+            transition: transform 0.3s;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        .accordion.open .accordion-header .arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 1.25rem;
+        }
+        .accordion.open .accordion-body {
+            max-height: 600px;
+            padding: 0 1.25rem 1.25rem;
+        }
+        .accordion-body p, .accordion-body ul {
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        /* ===== QUIZ ===== */
+        .quiz-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid #e2e8f0;
+        }
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        .quiz-header h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .quiz-score-badge {
+            background: var(--gradient-4);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .quiz-progress {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .quiz-progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+        .question-block {
+            display: none;
+        }
+        .question-block.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        .question-number {
+            display: inline-block;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            color: var(--dark);
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--white);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #475569;
+            text-align: left;
+            width: 100%;
+        }
+        .option:hover {
+            border-color: var(--primary-light);
+            background: #f8fafc;
+        }
+        .option.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+        .option.correct {
+            border-color: var(--success);
+            background: #ecfdf5;
+        }
+        .option.incorrect {
+            border-color: var(--danger);
+            background: #fef2f2;
+        }
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--gray);
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .option.selected .option-letter {
+            background: var(--primary);
+            color: white;
+        }
+        .option.correct .option-letter {
+            background: var(--success);
+            color: white;
+        }
+        .option.incorrect .option-letter {
+            background: var(--danger);
+            color: white;
+        }
+        .option-text { flex: 1; }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 2px solid #f1f5f9;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.45);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--gray);
+            border: 2px solid #e2e8f0;
+        }
+        .btn-outline:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .feedback-box {
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .feedback-box.show { display: block; }
+        .feedback-box.correct {
+            background: #ecfdf5;
+            border-left: 4px solid var(--success);
+            color: #065f46;
+        }
+        .feedback-box.incorrect {
+            background: #fef2f2;
+            border-left: 4px solid var(--danger);
+            color: #991b1b;
+        }
+
+        .result-screen {
+            text-align: center;
+            padding: 2rem 1rem;
+            display: none;
+        }
+        .result-screen.show { display: block; }
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0.5rem 0;
+        }
+        .result-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== ESSAY QUESTIONS ===== */
+        .essay-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .essay-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-sm);
+        }
+        .essay-question {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            line-height: 1.5;
+        }
+        .essay-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--gradient-1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .essay-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+            color: var(--dark);
+        }
+        .essay-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .essay-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+        .answer-key {
+            margin-top: 1rem;
+            padding: 1rem 1.25rem;
+            background: #ecfdf5;
+            border-left: 4px solid var(--success);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-size: 0.85rem;
+            color: #065f46;
+            display: none;
+        }
+        .answer-key.show { display: block; animation: fadeIn 0.3s; }
+        .answer-key strong { color: #047857; }
+
+        /* ===== MATCHING GAME ===== */
+        .match-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .match-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .match-item {
+            padding: 0.85rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            background: var(--white);
+            font-family: inherit;
+            text-align: left;
+            color: #475569;
+        }
+        .match-item:hover {
+            border-color: var(--primary-light);
+        }
+        .match-item.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+        .match-item.matched {
+            border-color: var(--success);
+            background: #ecfdf5;
+            cursor: default;
+            opacity: 0.7;
+        }
+        .match-item.matched-wrong {
+            border-color: var(--danger);
+            background: #fef2f2;
+            animation: shake 0.4s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* ===== FLASHCARD ===== */
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .flashcard {
+            perspective: 1000px;
+            height: 200px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .flashcard-front {
+            background: var(--gradient-1);
+            color: white;
+        }
+        .flashcard-front h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .flashcard-front p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .flashcard-back {
+            background: var(--white);
+            border: 2px solid var(--primary-light);
+            transform: rotateY(180deg);
+            color: #475569;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .flashcard-back strong { color: var(--primary-dark); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--gray);
+            font-size: 0.8rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 2rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .section-hero { padding: 1.75rem 1.25rem; }
+            .section-hero h1 { font-size: 1.4rem; }
+            .quiz-container { padding: 1.25rem; }
+            .card { padding: 1.25rem; }
+            .header-content { justify-content: center; text-align: center; }
+            .nav-tabs { top: 68px; }
+            .nav-tab { padding: 0.85rem 1rem; font-size: 0.8rem; }
+            .match-game { grid-template-columns: 1fr; }
+            .quiz-nav { flex-direction: column; }
+            .quiz-nav .btn { width: 100%; justify-content: center; }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-up {
+            animation: fadeUp 0.5s ease forwards;
+            opacity: 0;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .stagger-1 { animation-delay: 0.05s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.15s; }
+        .stagger-4 { animation-delay: 0.2s; }
+        .stagger-5 { animation-delay: 0.25s; }
+    </style>
+</head>
+<body>
+
+<!-- ===== LOADING SCREEN ===== -->
+<div id="loading">
+    <div class="loader-icon">🔬</div>
+    <div class="loader-text">SOCIOLOGYLAB</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <div class="logo-icon">🔬</div>
+            <span>SociologyLab</span>
+        </div>
+        <div class="header-progress">
+            <span>Progres Belajar</span>
+            <div class="progress-bar-header">
+                <div class="progress-bar-header-fill" id="headerProgress"></div>
+            </div>
+            <span id="headerProgressText">0%</span>
+        </div>
+    </div>
+</header>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav-tabs">
+    <div class="nav-tabs-inner">
+        <button class="nav-tab active" data-section="materi">📖 Materi</button>
+        <button class="nav-tab" data-section="flashcard">🃏 Flashcard</button>
+        <button class="nav-tab" data-section="kuis">📝 Kuis Pilihan Ganda</button>
+        <button class="nav-tab" data-section="essay">✍️ Soal Uraian</button>
+        <button class="nav-tab" data-section="matching">🔗 Latihan Mencocokkan</button>
+    </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+
+    <!-- ===== SECTION: MATERI ===== -->
+    <section class="section active" id="section-materi">
+        <div class="section-hero fade-up">
+            <span class="badge">📚 Bab 2 — Kelas 10</span>
+            <h1>Penelitian Sosiologi</h1>
+            <p>Pelajari hakikat penelitian, penalaran, jenis-jenis penelitian, pendekatan kuantitatif & kualitatif, sikap peneliti, serta tahapan penelitian sosial.</p>
+        </div>
+
+        <!-- 1. Hakikat Penelitian Sosiologi -->
+        <div class="card fade-up stagger-1">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#eef2ff;color:#6366f1;">🧠</div>
+                Hakikat Penelitian Sosiologi
+            </div>
+            <p>Penalaran adalah cara kita berpikir untuk menarik kesimpulan yang masuk akal dan benar dari fakta-fakta yang ada. Proses ini terjadi karena dua hal utama yang dimiliki manusia:</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>💬 Kemampuan Berbahasa</h4>
+                    <p>Manusia punya bahasa yang tidak hanya menyampaikan informasi, tapi juga menjelaskan alasan atau alur pemikiran di balik informasi tersebut.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔗 Alur Berpikir Sistematis</h4>
+                    <p>Pikiran kita bekerja terstruktur, membantu mengolah informasi dengan teratur dan menghubungkan ide secara runtut.</p>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <strong>Ciri-ciri Penalaran:</strong><br>
+                <strong>Logis</strong> — sesuai dengan logika, berpikir lurus dan tepat berdasarkan data dan analisis akal sehat.<br>
+                <strong>Analitis</strong> — bersifat analisis, penyelidikan terhadap suatu peristiwa untuk mengetahui keadaan sebenarnya.
+            </div>
+        </div>
+
+        <!-- 2. Penalaran Deduksi & Induksi -->
+        <div class="card fade-up stagger-2">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#fef3c7;color:#d97706;">🔍</div>
+                Penalaran Deduksi dan Induksi
+            </div>
+            <div class="info-grid">
+                <div class="info-card" style="border-left:4px solid #6366f1;">
+                    <h4>⬇️ Penalaran Deduksi</h4>
+                    <p>Cara berpikir dari hal-hal yang <strong>umum</strong> menuju hal-hal yang lebih <strong>khusus</strong>. Jika pernyataan umumnya benar, maka kesimpulannya pasti benar.</p>
+                    <p style="margin-top:0.5rem;font-size:0.8rem;background:#eef2ff;padding:0.5rem;border-radius:6px;">
+                        <strong>Contoh:</strong><br>
+                        Umum: Semua siswa kelas 10 SMA harus memakai seragam putih abu-abu.<br>
+                        Khusus: Rina adalah siswa kelas 10 SMA.<br>
+                        Kesimpulan: Jadi, Rina harus memakai seragam putih abu-abu.
+                    </p>
+                </div>
+                <div class="info-card" style="border-left:4px solid #ec4899;">
+                    <h4>⬆️ Penalaran Induksi</h4>
+                    <p>Cara berpikir dari hal-hal yang <strong>khusus</strong> menuju kesimpulan yang bersifat <strong>umum</strong>. Kesimpulannya tidak pasti 100%, hanya kemungkinan besar.</p>
+                    <p style="margin-top:0.5rem;font-size:0.8rem;background:#fdf2f8;padding:0.5rem;border-radius:6px;">
+                        <strong>Contoh:</strong><br>
+                        Fakta 1: Ayam di rumah Pak Budi berwarna putih.<br>
+                        Fakta 2: Ayam di peternakan sebelah juga putih.<br>
+                        Fakta 3: Ayam di pasar mayoritas putih.<br>
+                        Kesimpulan: Sebagian besar ayam berwarna putih.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Pengertian Penelitian -->
+        <div class="card fade-up stagger-3">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#ecfdf5;color:#10b981;">📖</div>
+                Pengertian Penelitian Menurut Para Ahli
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Marzuki</h4>
+                    <p>Penelitian adalah suatu usaha untuk mengumpulkan, mencari, dan menganalisis fakta-fakta mengenai suatu masalah.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Supranto</h4>
+                    <p>Penelitian dari suatu bidang ilmu pengetahuan adalah kegiatan yang dijalankan untuk memperoleh fakta-fakta atau prinsip-prinsip dengan sabar, hati-hati, dan sistematis.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Sutrisno Hadi</h4>
+                    <p>Penelitian adalah suatu usaha untuk menemukan sesuatu, mengisi kekosongan atau kekurangan, mengembangkan atau memperluas, dan menggali lebih dalam apa yang telah ada, serta menguji kebenaran terhadap apa yang sudah ada tetapi masih diragukan kebenarannya.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Hakikat Penelitian -->
+        <div class="card fade-up stagger-4">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#fce7f3;color:#ec4899;">🎯</div>
+                Hakikat Penelitian
+            </div>
+            <p>Penelitian pada dasarnya adalah usaha mencari kebenaran. Proses ini dilakukan dengan cara-cara yang teratur dan sistematis.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>1️⃣ Mencari Kebenaran yang Bisa Dipercaya</h4>
+                    <p>Upaya untuk mendapatkan kesimpulan yang benar dan bisa diandalkan melalui langkah-langkah ilmiah yang sudah ditetapkan.</p>
+                </div>
+                <div class="info-card">
+                    <h4>2️⃣ Menguji Hipotesis dengan Data Nyata</h4>
+                    <p>Kegiatan ilmiah yang menggunakan metode ilmiah untuk menguji dugaan atau hipotesis tentang suatu masalah dengan data dari dunia nyata.</p>
+                </div>
+                <div class="info-card">
+                    <h4>3️⃣ Menyelesaikan Masalah Secara Terencana</h4>
+                    <p>Serangkaian langkah yang terencana dan sistematis untuk memecahkan masalah atau menjawab pertanyaan penelitian.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Kegunaan dan Syarat Penelitian -->
+        <div class="card fade-up stagger-5">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#ede9fe;color:#8b5cf6;">✅</div>
+                Kegunaan dan Syarat Penelitian
+            </div>
+            <p><strong>Kegunaan Penelitian:</strong></p>
+            <ul>
+                <li>Memperkuat ilmu pengetahuan.</li>
+                <li>Membina dan mengembangkan ilmu pengetahuan.</li>
+            </ul>
+            <p style="margin-top:1rem;"><strong>Tiga Syarat Penting Penelitian:</strong></p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>📐 Sistematis</h4>
+                    <p>Mengikuti pola atau tahapan yang teratur, dari langkah sederhana sampai rumit secara berurutan.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📋 Terencana</h4>
+                    <p>Seluruh langkahnya sudah dipikirkan dan disiapkan sejak awal, tidak dilakukan tiba-tiba.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔬 Mengikuti Prosedur Ilmiah</h4>
+                    <p>Seluruh proses dilakukan sesuai kaidah-kaidah ilmiah yang ditetapkan agar hasilnya valid.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Jenis Penelitian Berdasarkan Metode -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#dbeafe;color:#2563eb;">🗂️</div>
+                Jenis Penelitian Berdasarkan Metode
+            </div>
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📜 Penelitian Historis</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <p><strong>Tujuan:</strong> Memahami peristiwa di masa lalu secara sistematis dan objektif.</p>
+                    <p><strong>Cara kerja:</strong> Mengumpulkan dan menganalisis data dari sumber-sumber masa lampau, seperti dokumen atau catatan lisan.</p>
+                    <p><strong>Contoh:</strong> Meneliti penyebab runtuhnya sebuah kerajaan kuno berdasarkan catatan sejarah.</p>
+                </div>
+            </div>
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📊 Penelitian Survei</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <p><strong>Tujuan:</strong> Mengumpulkan informasi dari banyak orang untuk memecahkan masalah praktis.</p>
+                    <p><strong>Cara kerja:</strong> Menyebarkan kuesioner atau wawancara kepada sekelompok orang.</p>
+                    <p><strong>Contoh:</strong> Menyebarkan kuesioner ke siswa untuk mengetahui pendapat mereka tentang fasilitas sekolah.</p>
+                </div>
+            </div>
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🧪 Penelitian Eksperimen</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <p><strong>Tujuan:</strong> Menguji suatu hipotesis atau teori dengan merekayasa kondisi buatan.</p>
+                    <p><strong>Cara kerja:</strong> Mengontrol variabel-variabel dalam sebuah percobaan untuk melihat efeknya.</p>
+                    <p><strong>Contoh:</strong> Menguji efektivitas dua metode pengajaran berbeda dengan menerapkannya pada dua kelas yang berbeda.</p>
+                </div>
+            </div>
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>👁️ Penelitian Observasi</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <p><strong>Tujuan:</strong> Memperoleh data konkret secara langsung dengan mengamati fenomena di lapangan.</p>
+                    <p><strong>Cara kerja:</strong> Mengamati perilaku atau kejadian secara langsung dalam lingkungan alaminya.</p>
+                    <p><strong>Contoh:</strong> Mengamati interaksi sosial sekelompok siswa saat jam istirahat untuk memahami pola pertemanan mereka.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Jenis Penelitian Berdasarkan Taraf Informasi -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#fef9c3;color:#ca8a04;">📈</div>
+                Jenis Penelitian Berdasarkan Taraf Pemberian Informasi
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🔎 Penelitian Eksploratif</h4>
+                    <p><strong>Tujuan:</strong> Menggali topik yang masih baru dan belum banyak diketahui.</p>
+                    <p><strong>Pertanyaan Kunci:</strong> "Apa" dan "Siapa".</p>
+                    <p><strong>Sifat:</strong> Kreatif, fleksibel, dan terbuka untuk semua informasi.</p>
+                    <p><strong>Contoh:</strong> Meneliti tren penggunaan media sosial yang baru muncul.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📝 Penelitian Deskriptif</h4>
+                    <p><strong>Tujuan:</strong> Memberikan gambaran yang lebih rinci tentang suatu fenomena yang sudah diketahui.</p>
+                    <p><strong>Pertanyaan Kunci:</strong> "Bagaimana".</p>
+                    <p><strong>Sifat:</strong> Melanjutkan hasil dari penelitian eksploratif untuk menjelaskan mekanisme suatu proses.</p>
+                    <p><strong>Contoh:</strong> Mendeskripsikan bagaimana tren media sosial menyebar di kalangan remaja.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🧩 Penelitian Eksplanasi</h4>
+                    <p><strong>Tujuan:</strong> Menjelaskan hubungan sebab-akibat.</p>
+                    <p><strong>Pertanyaan Kunci:</strong> "Mengapa".</p>
+                    <p><strong>Sifat:</strong> Menghubungkan pola-pola yang berbeda untuk menemukan alasan di balik suatu kejadian.</p>
+                    <p><strong>Contoh:</strong> Meneliti mengapa penggunaan media sosial tertentu menyebabkan penurunan motivasi belajar pada siswa.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📋 Penelitian Evaluasi</h4>
+                    <p><strong>Tujuan:</strong> Menilai seberapa baik sebuah program atau kebijakan dilaksanakan.</p>
+                    <p><strong>Contoh:</strong> Menilai keefektifan program literasi digital di sekolah.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Kuantitatif vs Kualitatif -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#f0fdf4;color:#16a34a;">⚖️</div>
+                Penelitian Kuantitatif dan Kualitatif
+            </div>
+            <div class="info-grid">
+                <div class="info-card" style="border-left:4px solid #3b82f6;">
+                    <h4>🔢 Penelitian Kuantitatif</h4>
+                    <p><strong>Fokus:</strong> Jumlah data yang dikumpulkan (angka dan data yang dapat diukur).</p>
+                    <p><strong>Contoh data:</strong> Jenis kelamin, tingkat pendidikan, besarnya penghasilan.</p>
+                    <p><strong>Teknik:</strong> Survei (kuesioner).</p>
+                    <p><strong>Analisis:</strong> Metode statistik.</p>
+                    <p><strong>Contoh kasus:</strong> Meneliti berapa persen siswa yang menyukai pelajaran Sosiologi dari 1.000 siswa.</p>
+                </div>
+                <div class="info-card" style="border-left:4px solid #ec4899;">
+                    <h4>💬 Penelitian Kualitatif</h4>
+                    <p><strong>Fokus:</strong> Kualitas dan kedalaman data yang diperoleh.</p>
+                    <p><strong>Teknik:</strong> Wawancara mendalam.</p>
+                    <p><strong>Analisis:</strong> Non-statistik (narasi/deskripsi).</p>
+                    <p><strong>Contoh kasus:</strong> Mewawancarai siswa untuk mengetahui alasan mengapa mereka tidak menyukai matematika.</p>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <strong>Intinya:</strong> Kuantitatif = tentang <em>seberapa banyak</em> (jumlah). Kualitatif = tentang <em>mengapa dan bagaimana</em> (kualitas).
+            </div>
+        </div>
+
+        <!-- 9. Tabel Perbedaan -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#f3e8ff;color:#9333ea;">📊</div>
+                Perbedaan Pendekatan Kuantitatif dan Kualitatif
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspek</th>
+                            <th>Kuantitatif</th>
+                            <th>Kualitatif</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Masalah yang diteliti</strong></td>
+                            <td>Menekankan beberapa variabel</td>
+                            <td>Menekankan banyak aspek dari satu variabel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tujuan</strong></td>
+                            <td>Menguji teori dan menegakkan fakta-fakta; perilaku manusia dan fenomena alam</td>
+                            <td>Mengembangkan kepekaan konsep dan penggambaran realitas yang tidak tunggal; perilaku manusia, proses kerja</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Objek yang diteliti</strong></td>
+                            <td>Besar, memiliki kelompok kontrol yang dipilih secara random dengan pertimbangan strata yang ada</td>
+                            <td>Kerja, tidak representatif dengan tujuan tertentu</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instrumen</strong></td>
+                            <td>Angket, wawancara, observasi, check list</td>
+                            <td>Lebih menekankan pada observasi dan wawancara</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bentuk data</strong></td>
+                            <td>Berupa angka atau data kualitatif yang diangkakan</td>
+                            <td>Kata-kata, kalimat, gambar, perilaku, replika, manuskrip</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sifatnya</strong></td>
+                            <td>Deskriptif, komparatif, asosiatif</td>
+                            <td>Deskriptif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top:1rem;"><strong>Persamaan:</strong></p>
+            <ul>
+                <li>Pada tahap awal, keduanya meneliti tema yang bersifat umum.</li>
+                <li>Dalam mencari informasi awal, terkadang menggunakan metode yang sama (observasi, wawancara, dokumentasi).</li>
+                <li>Data yang diperoleh sama-sama diolah dan dibuat laporan penelitian.</li>
+            </ul>
+        </div>
+
+        <!-- 10. Sikap dan Cara Berpikir Peneliti -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#fef2f2;color:#dc2626;">🧑‍🔬</div>
+                Sikap dan Cara Berpikir Peneliti
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🎯 Objektif</h4>
+                    <p>Berpikir dan bertindak sesuai fakta di lapangan, tanpa dipengaruhi perasaan pribadi.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🛠️ Kompeten</h4>
+                    <p>Punya keahlian dan metode yang tepat untuk melakukan penelitian.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📊 Faktual</h4>
+                    <p>Selalu bekerja berdasarkan fakta nyata yang didapat.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🤝 Jujur</h4>
+                    <p>Tidak mengubah data atau memasukkan keinginan pribadi ke dalam penelitian.</p>
+                </div>
+                <div class="info-card">
+                    <h4>❓ Skeptis</h4>
+                    <p>Tidak langsung percaya pada suatu pernyataan. Selalu butuh bukti atau fakta.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔍 Analitis</h4>
+                    <p>Menganalisis setiap masalah yang dihadapi secara mendalam.</p>
+                </div>
+                <div class="info-card">
+                    <h4>🧠 Kritis</h4>
+                    <p>Berpikir logis dan menimbang segala hal berdasarkan data dan akal sehat.</p>
+                </div>
+                <div class="info-card">
+                    <h4>👂 Terbuka</h4>
+                    <p>Bersedia menerima pendapat atau masukan dari orang lain tentang hasil penelitiannya.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Tahap-Tahap Penelitian -->
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#e0f2fe;color:#0284c7;">🪜</div>
+                Tahap-Tahap Penelitian
+            </div>
+
+            <div class="accordion open">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>1️⃣ Penyusunan Rancangan Penelitian</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <ul>
+                        <li><strong>Menentukan Masalah atau Topik:</strong> Memilih topik yang menarik, bisa diteliti, datanya tersedia, dan punya manfaat.</li>
+                        <li><strong>Studi Pendahuluan:</strong> Mencari informasi awal untuk memastikan masalahnya jelas dan penelitiannya layak dilanjutkan.</li>
+                        <li><strong>Merumuskan Latar Belakang Masalah:</strong> Menjelaskan alasan mengapa topik itu penting untuk diteliti.</li>
+                        <li><strong>Merumuskan Masalah Penelitian:</strong> Membuat pertanyaan-pertanyaan yang ingin dijawab.</li>
+                        <li><strong>Menentukan Tujuan dan Manfaat:</strong> Merumuskan tujuan dan menjelaskan kegunaan nyata hasil penelitian.</li>
+                        <li><strong>Menentukan Landasan Teori:</strong> Mengumpulkan teori-teori dari berbagai bacaan yang relevan.</li>
+                        <li><strong>Merumuskan Hipotesis:</strong> Membuat jawaban sementara yang masih perlu diuji kebenarannya.</li>
+                        <li><strong>Menyusun Metodologi Penelitian:</strong> Menentukan jenis penelitian, cara mengumpulkan data, analisis, dan unit analisis.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>2️⃣ Pelaksanaan Penelitian</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <ul>
+                        <li><strong>Menyusun Instrumen Penelitian:</strong> Menyiapkan alat mengumpulkan data (angket, pedoman wawancara, lembar observasi).</li>
+                        <li><strong>Subjek Penelitian:</strong> Responden (kuantitatif) atau informan (kualitatif).</li>
+                        <li><strong>Populasi dan Sampel:</strong> Populasi = seluruh kelompok; Sampel = sebagian kecil yang mewakili.</li>
+                        <li><strong>Mengumpulkan Data:</strong> Survei, Wawancara, Observasi, FGD, Studi Kepustakaan.</li>
+                        <li><strong>Analisis Data:</strong> Kuantitatif dengan statistik; Kualitatif dengan narasi/deskripsi.</li>
+                        <li><strong>Menarik Kesimpulan:</strong> Jawaban akhir berdasarkan analisis data, bisa diikuti saran.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>3️⃣ Penyusunan Laporan Penelitian</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="accordion-body">
+                    <ul>
+                        <li><strong>Menyusun Laporan:</strong> Pendahuluan (judul, kata pengantar, daftar isi), Isi (bab pendahuluan, landasan teori, metodologi, hasil, kesimpulan), Penutup (daftar pustaka, lampiran).</li>
+                        <li><strong>Mempresentasikan Laporan:</strong> Memaparkan di forum diskusi, simposium, atau seminar.</li>
+                        <li><strong>Publikasi Laporan:</strong> Menyebarkan ke jurnal ilmiah, buku, atau internet dengan tetap menjaga etika dan privasi subjek.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:2rem;">
+            <button class="btn btn-primary" onclick="goToSection('kuis')">
+                📝 Lanjut ke Kuis Pilihan Ganda →
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== SECTION: FLASHCARD ===== -->
+    <section class="section" id="section-flashcard">
+        <div class="section-hero fade-up" style="background:var(--gradient-2);">
+            <span class="badge">🃏 Belajar Interaktif</span>
+            <h1>Flashcard Penelitian Sosiologi</h1>
+            <p>Klik kartu untuk membalik dan melihat penjelasan. Cara seru menghafal konsep penting!</p>
+        </div>
+
+        <div class="flashcard-grid">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penalaran Deduksi</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Deduksi</strong><br>
+                        Cara berpikir dari hal <em>umum</em> → <em>khusus</em>. Jika premis umum benar, kesimpulan pasti benar.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penalaran Induksi</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Induksi</strong><br>
+                        Cara berpikir dari hal <em>khusus</em> → <em>umum</em>. Kesimpulannya bersifat kemungkinan besar, tidak pasti 100%.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Historis</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Penelitian Historis</strong><br>
+                        Memahami peristiwa masa lalu secara sistematis dan objektif. Sumber: dokumen, catatan lisan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Survei</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Penelitian Survei</strong><br>
+                        Mengumpulkan informasi dari banyak orang untuk memecahkan masalah praktis. Alat: kuesioner/wawancara.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Eksperimen</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Penelitian Eksperimen</strong><br>
+                        Menguji hipotesis dengan merekayasa kondisi buatan. Peneliti mengontrol variabel.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Observasi</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Penelitian Observasi</strong><br>
+                        Memperoleh data konkret langsung dengan mengamati fenomena di lapangan/lingkungan alami.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Eksploratif</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Eksploratif</strong><br>
+                        Menggali topik baru. Pertanyaan kunci: "Apa" dan "Siapa". Sifat: kreatif, fleksibel.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Deskriptif</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Deskriptif</strong><br>
+                        Memberikan gambaran rinci tentang fenomena yang sudah diketahui. Pertanyaan kunci: "Bagaimana".
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Penelitian Eksplanasi</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Eksplanasi</strong><br>
+                        Menjelaskan hubungan sebab-akibat. Pertanyaan kunci: "Mengapa".
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Kuantitatif</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Kuantitatif</strong><br>
+                        Fokus pada angka & jumlah data. Teknik: survei/kuesioner. Analisis: statistik.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Kualitatif</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>Kualitatif</strong><br>
+                        Fokus pada kedalaman & kualitas data. Teknik: wawancara mendalam. Analisis: narasi/deskripsi.
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Syarat Penelitian</h3>
+                        <p>Klik untuk melihat penjelasan</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <strong>3 Syarat Penelitian:</strong><br>
+                        1. Sistematis<br>
+                        2. Terencana<br>
+                        3. Mengikuti prosedur ilmiah
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:2rem;">
+            <button class="btn btn-primary" onclick="goToSection('kuis')">
+                📝 Lanjut ke Kuis →
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== SECTION: KUIS ===== -->
+    <section class="section" id="section-kuis">
+        <div class="section-hero fade-up" style="background:var(--gradient-3);">
+            <span class="badge">📝 Uji Pemahaman</span>
+            <h1>Kuis Pilihan Ganda</h1>
+            <p>Jawab 10 pertanyaan berikut dengan memilih satu jawaban yang paling tepat. Skor akan muncul di akhir kuis!</p>
+        </div>
+
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2>🧪 Kuis Penelitian Sosiologi</h2>
+                <div class="quiz-score-badge" id="scoreBadge">Skor: 0/10</div>
+            </div>
+            <div class="quiz-progress">
+                <div class="quiz-progress-fill" id="quizProgressFill"></div>
+            </div>
+
+            <div id="quizQuestions"></div>
+
+            <div class="quiz-nav" id="quizNav">
+                <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()" disabled>← Sebelumnya</button>
+                <span style="font-size:0.85rem;color:var(--gray);" id="questionCounter">Pertanyaan 1 dari 10</span>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Selanjutnya →</button>
+            </div>
+
+            <div class="result-screen" id="resultScreen">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-title" id="resultTitle">Kuis Selesai!</div>
+                <div class="result-score" id="resultScore">0/10</div>
+                <div class="result-desc" id="resultDesc"></div>
+                <button class="btn btn-primary" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION: ESSAY ===== -->
+    <section class="section" id="section-essay">
+        <div class="section-hero fade-up" style="background:var(--gradient-2);">
+            <span class="badge">✍️ Soal Uraian</span>
+            <h1>Latihan Soal Uraian</h1>
+            <p>Jawab pertanyaan berikut dengan bahasa Anda sendiri, lalu bandingkan dengan kunci jawaban yang tersedia.</p>
+        </div>
+
+        <div class="essay-container" id="essayContainer"></div>
+    </section>
+
+    <!-- ===== SECTION: MATCHING ===== -->
+    <section class="section" id="section-matching">
+        <div class="section-hero fade-up" style="background:var(--gradient-4);">
+            <span class="badge">🔗 Latihan Interaktif</span>
+            <h1>Mencocokkan Konsep</h1>
+            <p>Cocokkan istilah di kolom kiri dengan penjelasan yang tepat di kolom kanan. Klik satu item kiri, lalu klik pasangannya di kanan!</p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <div class="card-title-icon" style="background:#ecfdf5;color:#10b981;">🎯</div>
+                Cocokkan Istilah dengan Penjelasan
+            </div>
+            <p style="font-size:0.85rem;color:var(--gray);margin-bottom:1rem;">Skor: <strong id="matchScore">0</strong> / 6 pasangan</p>
+            <div class="match-game">
+                <div class="match-col" id="matchLeft"></div>
+                <div class="match-col" id="matchRight"></div>
+            </div>
+            <div style="text-align:center;margin-top:1.5rem;">
+                <button class="btn btn-outline" onclick="resetMatch()">🔄 Acak Ulang</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2025 SociologyLab — Media Pembelajaran Sosiologi Kelas 10</p>
+    <p style="margin-top:0.3rem;">Materi: Penelitian Sosiologi | Berdasarkan Modul Sosiologi Semester 1</p>
+</footer>
+
+<script>
+// ============================================
+// DATA KUIS
+// ============================================
+const quizData = [
+    {
+        question: "Penalaran yang bergerak dari hal-hal yang umum menuju hal-hal yang lebih khusus disebut...",
+        options: ["Induksi", "Deduksi", "Analitis", "Skeptis"],
+        correct: 1,
+        explanation: "Deduksi adalah cara berpikir dari hal-hal yang umum menuju hal-hal yang lebih khusus. Jika pernyataan umumnya benar, maka kesimpulannya pasti benar."
+    },
+    {
+        question: "Berikut ini yang BUKAN termasuk syarat penting dalam penelitian adalah...",
+        options: ["Sistematis", "Terencana", "Mengikuti prosedur ilmiah", "Bersifat subjektif"],
+        correct: 3,
+        explanation: "Tiga syarat penting penelitian adalah sistematis, terencana, dan mengikuti prosedur ilmiah. Penelitian harus objektif, bukan subjektif."
+    },
+    {
+        question: "Jenis penelitian yang bertujuan memahami peristiwa di masa lalu secara sistematis dan objektif adalah...",
+        options: ["Penelitian Survei", "Penelitian Eksperimen", "Penelitian Historis", "Penelitian Observasi"],
+        correct: 2,
+        explanation: "Penelitian historis bertujuan memahami peristiwa di masa lalu secara sistematis dan objektif, dengan mengumpulkan data dari sumber-sumber masa lampau."
+    },
+    {
+        question: "Penelitian yang fokus pada kedalaman data dan kualitas informasi, serta menggunakan wawancara mendalam sebagai teknik utama adalah...",
+        options: ["Kuantitatif", "Kualitatif", "Eksperimen", "Survei"],
+        correct: 1,
+        explanation: "Penelitian kualitatif fokus pada kedalaman data dan kualitas informasi. Teknik utamanya adalah wawancara mendalam, dan analisisnya non-statistik."
+    },
+    {
+        question: "Pertanyaan kunci 'Mengapa' merupakan ciri dari penelitian...",
+        options: ["Eksploratif", "Deskriptif", "Eksplanasi", "Evaluasi"],
+        correct: 2,
+        explanation: "Penelitian eksplanasi bertujuan menjelaskan hubungan sebab-akibat dengan pertanyaan kunci 'Mengapa'."
+    },
+    {
+        question: "Sikap peneliti yang tidak langsung percaya pada suatu pernyataan dan selalu membutuhkan bukti atau fakta disebut...",
+        options: ["Objektif", "Jujur", "Skeptis", "Terbuka"],
+        correct: 2,
+        explanation: "Skeptis adalah sikap tidak langsung percaya pada suatu pernyataan, selalu membutuhkan bukti atau fakta."
+    },
+    {
+        question: "Tahap pertama dalam penelitian adalah...",
+        options: ["Mengumpulkan data", "Menyusun rancangan penelitian", "Menganalisis data", "Menyusun laporan"],
+        correct: 1,
+        explanation: "Tahap pertama penelitian adalah penyusunan rancangan penelitian, yang meliputi menentukan masalah, studi pendahuluan, merumuskan masalah, tujuan, landasan teori, hipotesis, dan metodologi."
+    },
+    {
+        question: "Menurut Supranto, penelitian adalah kegiatan yang dijalankan untuk memperoleh fakta-fakta atau prinsip-prinsip dengan...",
+        options: ["Cepat dan tepat", "Sabar, hati-hati, dan sistematis", "Mudah dan murah", "Kreatif dan inovatif"],
+        correct: 1,
+        explanation: "Menurut Supranto, penelitian adalah kegiatan yang dijalankan untuk memperoleh fakta-fakta atau prinsip-prinsip dengan sabar, hati-hati, dan sistematis."
+    },
+    {
+        question: "Penelitian yang dilakukan di tempat khusus yang sudah diatur untuk tujuan ilmiah disebut penelitian...",
+        options: ["Lapangan", "Perpustakaan", "Laboratorium", "Survei"],
+        correct: 2,
+        explanation: "Penelitian laboratorium adalah jenis penelitian yang dilakukan di tempat khusus yang sudah diatur untuk tujuan ilmiah, seperti laboratorium."
+    },
+    {
+        question: "Berikut ini yang termasuk ciri-ciri penalaran adalah...",
+        options: ["Logis dan analitis", "Subjektif dan emosional", "Acak dan tidak terstruktur", "Spekulatif dan dogmatis"],
+        correct: 0,
+        explanation: "Ciri-ciri penalaran adalah logis (sesuai logika) dan analitis (bersifat analisis)."
+    }
+];
+
+// ============================================
+// DATA ESSAY
+// ============================================
+const essayData = [
+    {
+        question: "Jelaskan apa yang dimaksud dengan penalaran deduksi dan berikan satu contohnya!",
+        answer: "Penalaran deduksi adalah cara berpikir dari hal-hal yang umum menuju hal-hal yang lebih khusus. Jika pernyataan umumnya benar, maka kesimpulannya pasti benar. Contoh: Semua siswa kelas 10 SMA harus memakai seragam putih abu-abu. Rina adalah siswa kelas 10 SMA. Jadi, Rina harus memakai seragam putih abu-abu."
+    },
+    {
+        question: "Sebutkan dan jelaskan tiga syarat penting yang harus dipenuhi dalam melakukan penelitian!",
+        answer: "1. Sistematis: penelitian harus mengikuti pola atau tahapan yang teratur, dari langkah sederhana sampai rumit secara berurutan. 2. Terencana: seluruh langkahnya sudah dipikirkan dan disiapkan sejak awal. 3. Mengikuti prosedur ilmiah: seluruh proses dilakukan sesuai kaidah-kaidah ilmiah yang ditetapkan agar hasilnya valid dan dapat dipertanggungjawabkan."
+    },
+    {
+        question: "Apa perbedaan utama antara penelitian kuantitatif dan kualitatif? Jelaskan!",
+        answer: "Penelitian kuantitatif fokus pada angka dan data yang dapat diukur, mengumpulkan data dalam jumlah besar untuk dianalisis secara statistik. Penelitian kualitatif fokus pada kedalaman data dan kualitas informasi, menggunakan wawancara mendalam, dan analisisnya non-statistik. Intinya: kuantitatif tentang seberapa banyak (jumlah), kualitatif tentang mengapa dan bagaimana (kualitas)."
+    },
+    {
+        question: "Sebutkan empat sikap yang harus dimiliki oleh seorang peneliti!",
+        answer: "1. Objektif: berpikir dan bertindak sesuai fakta di lapangan, tanpa dipengaruhi perasaan pribadi. 2. Kompeten: punya keahlian dan metode yang tepat. 3. Faktual: selalu bekerja berdasarkan fakta nyata. 4. Jujur: tidak mengubah data atau memasukkan keinginan pribadi ke dalam penelitian."
+    },
+    {
+        question: "Jelaskan tahap-tahap penelitian secara umum!",
+        answer: "Tahap penelitian terdiri dari: 1. Penyusunan rancangan penelitian (menentukan masalah, studi pendahuluan, merumuskan masalah, tujuan, landasan teori, hipotesis, metodologi). 2. Pelaksanaan penelitian (menyusun instrumen, mengumpulkan data, analisis data, menarik kesimpulan). 3. Penyusunan laporan penelitian (menyusun laporan, mempresentasikan, dan publikasi)."
+    },
+    {
+        question: "Apa yang dimaksud dengan penelitian eksplanasi? Berikan contohnya!",
+        answer: "Penelitian eksplanasi adalah penelitian yang bertujuan menjelaskan hubungan sebab-akibat, dengan pertanyaan kunci 'Mengapa'. Sifatnya menghubungkan pola-pola yang berbeda untuk menemukan alasan di balik suatu kejadian. Contoh: Meneliti mengapa penggunaan media sosial tertentu menyebabkan penurunan motivasi belajar pada siswa."
+    }
+];
+
+// ============================================
+// DATA MATCHING
+// ============================================
+const matchData = [
+    { left: "Deduksi", right: "Dari umum ke khusus" },
+    { left: "Induksi", right: "Dari khusus ke umum" },
+    { left: "Kuantitatif", right: "Fokus pada angka dan statistik" },
+    { left: "Kualitatif", right: "Fokus pada kedalaman dan wawancara" },
+    { left: "Eksploratif", right: "Pertanyaan kunci 'Apa' dan 'Siapa'" },
+    { left: "Eksplanasi", right: "Pertanyaan kunci 'Mengapa'" }
+];
+
+// ============================================
+// STATE
+// ============================================
+let currentQuestion = 0;
+let answers = new Array(quizData.length).fill(null);
+let quizFinished = false;
+let selectedMatchLeft = null;
+let matchedPairs = 0;
+
+// ============================================
+// INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.getElementById('loading').classList.add('hidden');
+    }, 2000);
+
+    renderQuiz();
+    renderEssay();
+    renderMatch();
+    updateHeaderProgress();
+});
+
+// ============================================
+// NAVIGATION
+// ============================================
+document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        goToSection(tab.dataset.section);
+    });
+});
+
+function goToSection(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const section = document.getElementById('section-' + sectionId);
+    if (section) section.classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.section === sectionId);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateHeaderProgress();
+}
+
+// ============================================
+// ACCORDION
+// ============================================
+function toggleAccordion(header) {
+    const accordion = header.parentElement;
+    accordion.classList.toggle('open');
+}
+
+// ============================================
+// QUIZ
+// ============================================
+function renderQuiz() {
+    const container = document.getElementById('quizQuestions');
+    container.innerHTML = '';
+    quizData.forEach((q, index) => {
+        const block = document.createElement('div');
+        block.className = 'question-block' + (index === 0 ? ' active' : '');
+        block.id = 'q-' + index;
+        block.innerHTML = `
+            <div class="question-number">Pertanyaan ${index + 1}</div>
+            <div class="question-text">${q.question}</div>
+            <div class="options">
+                ${q.options.map((opt, i) => `
+                    <button class="option" onclick="selectOption(${index}, ${i})" id="opt-${index}-${i}">
+                        <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                        <span class="option-text">${opt}</span>
+                    </button>
+                `).join('')}
+            </div>
+            <div class="feedback-box" id="feedback-${index}"></div>
+        `;
+        container.appendChild(block);
+    });
+    updateQuizUI();
+}
+
+function selectOption(qIndex, optIndex) {
+    if (quizFinished) return;
+    answers[qIndex] = optIndex;
+
+    // Reset visual untuk pertanyaan ini
+    quizData[qIndex].options.forEach((_, i) => {
+        const opt = document.getElementById(`opt-${qIndex}-${i}`);
+        opt.classList.remove('selected', 'correct', 'incorrect');
+    });
+
+    // Tandai yang dipilih
+    document.getElementById(`opt-${qIndex}-${optIndex}`).classList.add('selected');
+
+    // Tampilkan feedback
+    const feedback = document.getElementById(`feedback-${qIndex}`);
+    const isCorrect = optIndex === quizData[qIndex].correct;
+    feedback.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'incorrect');
+    feedback.innerHTML = isCorrect
+        ? `✅ <strong>Benar!</strong> ${quizData[qIndex].explanation}`
+        : `❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah <strong>${String.fromCharCode(65 + quizData[qIndex].correct)}. ${quizData[qIndex].options[quizData[qIndex].correct]}</strong>. ${quizData[qIndex].explanation}`;
+
+    // Tandai jawaban benar/salah
+    document.getElementById(`opt-${qIndex}-${optIndex}`).classList.add(isCorrect ? 'correct' : 'incorrect');
+    if (!isCorrect) {
+        document.getElementById(`opt-${qIndex}-${quizData[qIndex].correct}`).classList.add('correct');
+    }
+
+    updateQuizUI();
+}
+
+function updateQuizUI() {
+    const total = quizData.length;
+    const answered = answers.filter(a => a !== null).length;
+    const correct = answers.filter((a, i) => a === quizData[i].correct).length;
+
+    document.getElementById('scoreBadge').textContent = `Skor: ${correct}/${total}`;
+    document.getElementById('quizProgressFill').style.width = (answered / total * 100) + '%';
+    document.getElementById('questionCounter').textContent = `Pertanyaan ${currentQuestion + 1} dari ${total}`;
+
+    document.getElementById('prevBtn').disabled = currentQuestion === 0;
+    document.getElementById('nextBtn').disabled = currentQuestion === total - 1;
+
+    // Update header progress
+    updateHeaderProgress();
+}
+
+function nextQuestion() {
+    if (currentQuestion < quizData.length - 1) {
+        document.getElementById('q-' + currentQuestion).classList.remove('active');
+        currentQuestion++;
+        document.getElementById('q-' + currentQuestion).classList.add('active');
+        updateQuizUI();
+    }
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        document.getElementById('q-' + currentQuestion).classList.remove('active');
+        currentQuestion--;
+        document.getElementById('q-' + currentQuestion).classList.add('active');
+        updateQuizUI();
+    }
+}
+
+// Override next button untuk menampilkan hasil di akhir
+document.getElementById('nextBtn').addEventListener('click', function() {
+    if (currentQuestion === quizData.length - 1) {
+        showResult();
+    }
+});
+
+function showResult() {
+    quizFinished = true;
+    const total = quizData.length;
+    const correct = answers.filter((a, i) => a === quizData[i].correct).length;
+    const percentage = Math.round(correct / total * 100);
+
+    document.getElementById('quizQuestions').style.display = 'none';
+    document.getElementById('quizNav').style.display = 'none';
+    document.getElementById('resultScreen').classList.add('show');
+
+    document.getElementById('resultScore').textContent = `${correct}/${total}`;
+
+    let icon, title, desc;
+    if (percentage >= 90) {
+        icon = '🏆'; title = 'Luar Biasa!';
+        desc = `Kamu mendapatkan nilai ${percentage}%. Pemahamanmu tentang penelitian sosiologi sangat baik!`;
+    } else if (percentage >= 70) {
+        icon = '🎉'; title = 'Bagus Sekali!';
+        desc = `Kamu mendapatkan nilai ${percentage}%. Sedikit lagi untuk sempurna, terus belajar!`;
+    } else if (percentage >= 50) {
+        icon = '💪'; title = 'Cukup Baik';
+        desc = `Kamu mendapatkan nilai ${percentage}%. Pelajari kembali materi untuk meningkatkan pemahaman.`;
+    } else {
+        icon = '📚'; title = 'Perlu Belajar Lagi';
+        desc = `Kamu mendapatkan nilai ${percentage}%. Jangan menyerah, baca kembali materi dengan saksama!`;
+    }
+
+    document.getElementById('resultIcon').textContent = icon;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultDesc').textContent = desc;
+
+    updateHeaderProgress();
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    answers = new Array(quizData.length).fill(null);
+    quizFinished = false;
+
+    document.getElementById('quizQuestions').style.display = 'block';
+    document.getElementById('quizNav').style.display = 'flex';
+    document.getElementById('resultScreen').classList.remove('show');
+
+    renderQuiz();
+    updateQuizUI();
+}
+
+// ============================================
+// ESSAY
+// ============================================
+function renderEssay() {
+    const container = document.getElementById('essayContainer');
+    container.innerHTML = '';
+    essayData.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'essay-item';
+        div.innerHTML = `
+            <div class="essay-question">
+                <span class="essay-number">${index + 1}</span>
+                <span>${item.question}</span>
+            </div>
+            <textarea class="essay-input" placeholder="Tulis jawabanmu di sini..." id="essay-${index}"></textarea>
+            <div class="essay-actions">
+                <button class="btn btn-outline btn-sm" onclick="toggleAnswer(${index})">💡 Lihat Kunci Jawaban</button>
+            </div>
+            <div class="answer-key" id="answer-${index}">
+                <strong>📌 Kunci Jawaban:</strong><br>${item.answer}
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function toggleAnswer(index) {
+    const el = document.getElementById('answer-' + index);
+    el.classList.toggle('show');
+}
+
+// ============================================
+// MATCHING GAME
+// ============================================
+function renderMatch() {
+    const leftCol = document.getElementById('matchLeft');
+    const rightCol = document.getElementById('matchRight');
+    leftCol.innerHTML = '';
+    rightCol.innerHTML = '';
+
+    const leftItems = [...matchData].sort(() => Math.random() - 0.5);
+    const rightItems = [...matchData].sort(() => Math.random() - 0.5);
+
+    leftItems.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'match-item';
+        btn.textContent = item.left;
+        btn.dataset.value = item.left;
+        btn.onclick = () => selectMatchLeft(btn, item.left);
+        leftCol.appendChild(btn);
+    });
+
+    rightItems.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'match-item';
+        btn.textContent = item.right;
+        btn.dataset.value = item.left;
+        btn.onclick = () => selectMatchRight(btn, item.left);
+        rightCol.appendChild(btn);
+    });
+
+    matchedPairs = 0;
+    document.getElementById('matchScore').textContent = '0';
+    selectedMatchLeft = null;
+}
+
+function selectMatchLeft(btn, value) {
+    if (btn.classList.contains('matched')) return;
+    document.querySelectorAll('#matchLeft .match-item').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedMatchLeft = { btn, value };
+}
+
+function selectMatchRight(btn, value) {
+    if (btn.classList.contains('matched')) return;
+    if (!selectedMatchLeft) {
+        // Beri efek visual
+        btn.style.borderColor = 'var(--warning)';
+        setTimeout(() => btn.style.borderColor = '', 500);
+        return;
+    }
+
+    if (selectedMatchLeft.value === value) {
+        // Benar
+        selectedMatchLeft.btn.classList.remove('selected');
+        selectedMatchLeft.btn.classList.add('matched');
+        btn.classList.add('matched');
+        matchedPairs++;
+        document.getElementById('matchScore').textContent = matchedPairs;
+        selectedMatchLeft = null;
+
+        if (matchedPairs === matchData.length) {
+            setTimeout(() => {
+                alert('🎉 Selamat! Kamu berhasil mencocokkan semua pasangan dengan benar!');
+            }, 300);
+        }
+    } else {
+        // Salah
+        btn.classList.add('matched-wrong');
+        selectedMatchLeft.btn.classList.add('matched-wrong');
+        setTimeout(() => {
+            btn.classList.remove('matched-wrong');
+            if (selectedMatchLeft) selectedMatchLeft.btn.classList.remove('matched-wrong');
+        }, 500);
+    }
+}
+
+function resetMatch() {
+    renderMatch();
+}
+
+// ============================================
+// HEADER PROGRESS
+// ============================================
+function updateHeaderProgress() {
+    let progress = 0;
+    // Hitung berdasarkan kuis
+    const answered = answers.filter(a => a !== null).length;
+    const quizProgress = (answered / quizData.length) * 60; // 60% dari kuis
+    // Hitung berdasarkan essay (jika ada yang diisi)
+    let essayFilled = 0;
+    essayData.forEach((_, i) => {
+        const el = document.getElementById('essay-' + i);
+        if (el && el.value.trim().length > 10) essayFilled++;
+    });
+    const essayProgress = (essayFilled / essayData.length) * 20; // 20% dari essay
+    // Hitung matching
+    const matchProgress = (matchedPairs / matchData.length) * 20; // 20% dari matching
+
+    progress = Math.round(quizProgress + essayProgress + matchProgress);
+    progress = Math.min(100, progress);
+
+    document.getElementById('headerProgress').style.width = progress + '%';
+    document.getElementById('headerProgressText').textContent = progress + '%';
+}
+
+// Update progress saat mengetik essay
+document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('essay-input')) {
+        updateHeaderProgress();
+    }
+});
+
+// ============================================
+// SMOOTH SCROLL untuk tombol navigasi
+// ============================================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+</script>
+
+</body>
+</html>
